@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+  <ValueLookup id="prtg.citrix.adc.hacurstate" desiredValue="0" undefinedState="Error">
+    <Lookups>
+      <SingleInt state="Ok" value="0">
+        UP
+      </SingleInt>
+      <SingleInt state="Error" value="1">
+        DISABLED
+      </SingleInt>
+	  <SingleInt state="Warning" value="2">
+        INIT
+      </SingleInt>
+	  <SingleInt state="Warning" value="3">
+        PARTIALFAIL
+      </SingleInt>
+	  <SingleInt state="Error" value="4">
+        COMPLETEFAIL
+      </SingleInt>
+	  <SingleInt state="Error" value="5">
+        DUMB
+      </SingleInt>
+	  <SingleInt state="Warning" value="6">
+        PARTIALFAILSSL
+      </SingleInt>
+	  <SingleInt state="Error" value="7">
+        ROUTEMONITORFAIL
+      </SingleInt>
+      <SingleInt state="Error" value="-1">
+        Unkown
+      </SingleInt>
+    </Lookups>
+  </ValueLookup>

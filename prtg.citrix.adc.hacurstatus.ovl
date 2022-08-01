@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+  <ValueLookup id="prtg.citrix.adc.hacurstatus" desiredValue="0" undefinedState="Error">
+    <Lookups>
+      <SingleInt state="Error" value="0">
+        NO
+      </SingleInt>
+      <SingleInt state="Ok" value="1">
+        YES
+      </SingleInt>
+    </Lookups>
+  </ValueLookup>

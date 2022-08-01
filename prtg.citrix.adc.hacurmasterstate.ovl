@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+  <ValueLookup id="prtg.citrix.adc.hacurmasterstate" desiredValue="0" undefinedState="Error">
+    <Lookups>
+      <SingleInt state="Ok" value="0">
+        PRIMARY
+      </SingleInt>
+      <SingleInt state="OK" value="1">
+        SECONDARY
+      </SingleInt>
+	  <SingleInt state="Warning" value="2">
+        STAYSECONDARY
+      </SingleInt>
+	  <SingleInt state="Warning" value="3">
+        CLAIMING
+      </SingleInt>
+	  <SingleInt state="Warning" value="4">
+        FORCE CHANGE
+      </SingleInt>
+      <SingleInt state="Error" value="-1">
+        Unkown
+      </SingleInt>
+    </Lookups>
+  </ValueLookup>

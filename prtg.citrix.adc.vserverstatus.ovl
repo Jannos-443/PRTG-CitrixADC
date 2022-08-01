@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+  <ValueLookup id="prtg.citrix.adc.vserverstatus" desiredValue="1" undefinedState="Error">
+    <Lookups>
+      <SingleInt state="Ok" value="1">
+        Up
+      </SingleInt>
+      <SingleInt state="Error" value="2">
+        Down
+      </SingleInt>
+      <SingleInt state="Ok" value="3">
+        Out of Service
+      </SingleInt>
+    </Lookups>
+  </ValueLookup>
