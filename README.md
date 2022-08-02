@@ -13,7 +13,7 @@ This sensor library relies on the [NetScaler PowerShell module](https://www.powe
 Sensor is a Updated Fork from https://github.com/xawen/PRTG-NetScaler
 
 ### Working on
-- more Stats (protocolhttp, interfaces, aaa ...)
+- more Stats (aaa ...)
 - if you are missing something please open an issue
 
 <!-- GETTING STARTED -->
@@ -92,7 +92,7 @@ Sensor is a Updated Fork from https://github.com/xawen/PRTG-NetScaler
 
 ![PRTG-CitrixADC](media/cert.png)
 
-### ADC CertExpiration Details
+### ADC CertExpiration Details (channel for each cert)
 
 ```powershell
 ...  -CertExpiration -IncludeCerts '^(\*\.contoso.com)$' -CertDetails
@@ -125,7 +125,7 @@ Sensor is a Updated Fork from https://github.com/xawen/PRTG-NetScaler
 
 ![PRTG-CitrixADC](media/vserver.png)
 
-### ADC vServer Health
+### ADC vServer Health (channel for each vServer)
 
 ```powershell
 ... -vServerHealth
@@ -137,7 +137,7 @@ Sensor is a Updated Fork from https://github.com/xawen/PRTG-NetScaler
 
 ![PRTG-CitrixADC](media/vserverhealth.png)
 
-### ADC vServer State
+### ADC vServer State (channel for each vServer)
 
 ```powershell
 ... -vServerState
@@ -145,21 +145,26 @@ Sensor is a Updated Fork from https://github.com/xawen/PRTG-NetScaler
 
 ![PRTG-CitrixADC](media/vserverstate.png)
 
-### you can include/exclude vServer Types (CSvServer, LBvServer, VPNvServer and AAAvServer)
+## Includes/Excludes
+
+include/exclude vServer Types (CSvServer, LBvServer, VPNvServer and AAAvServer)
 
 ```powershell
-... -IncludevServerType '^(CSvServer|LBvServer)$'
+... -vServerState -IncludevServerType '^(CSvServer|LBvServer)$'
 ```
 
-### you can also include/exclude vServer Names
+include/exclude vServer Names
 
 ```powershell
 ... -vServerState -IncludevServerName '^(Test123.*|LBTest)$'
 ```
 
-## Includes/Excludes
+include/exclude Certs
 
-You can use the variables to exclude/include
+```powershell
+... -CertExpiration -IncludeCerts '^(\*\.contoso.com)$'
+```
+
 The variables take a regular expression as input to provide maximum flexibility.
 
 For more information about regular expressions in PowerShell, visit [Microsoft Docs](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_regular_expressions).
