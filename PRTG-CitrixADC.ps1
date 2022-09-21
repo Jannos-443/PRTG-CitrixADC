@@ -110,6 +110,10 @@
 
     -Hostname '%host' -Username '%linuxuser' -Password '%linuxpassword' -System -https
 
+    Changelog:
+    21.09.2022 - fix ADC 13.0 CPU usage bug
+
+
     Author:  Jannos-443
     https://github.com/Jannos-443/PRTG-CitrixADC
 #>
@@ -354,10 +358,12 @@ if ($vServerState -or $vServerHealth -or $vServer) {
                     $vServerOutofService ++
                 }
             }
-
-            if ($Result.health -le $vServerLBHealthMin) {
-                $vServerLBHealthMin = $Result.health
-            }
+            if($Result.curstate -ne "OUT OF SERVICE")
+                {
+                if ($Result.health -le $vServerLBHealthMin) {
+                    $vServerLBHealthMin = $Result.health
+                    }
+                }
 
             if ($vServerState) {
                 $xmlOutput += "<result>
@@ -608,10 +614,21 @@ if ($System) {
     $ResultProtocolTCP = Get-NSStat -session $Session -Type 'protocoltcp'
     $ResultNS = Get-NSStat -Session $Session -Type 'ns'
     $ResultCurrentTime = Get-NSCurrentTime -session $Session
+    $ResultSystemCPU = Get-NSStat -session $session -Type systemcpu
+
+    #CPU Result in 13.0 invalid
+    if($ResultSystem.cpuusagepcnt -eq 4294967295)
+        {
+        $OutputCPU = ($ResultSystemCPU.percpuuse | Measure-Object -Average).Average
+        }
+    else
+        {
+        $OutputCPU = $ResultSystem.cpuusagepcnt
+        }
 
     $xmlOutput += "<result>
 			<channel>CPU Usage</channel>
-			<value>$([math]::Round($ResultSystem.cpuusagepcnt))</value>
+			<value>$([math]::Round($OutputCPU))</value>
 			<unit>Percent</unit>
 			<limitmode>1</limitmode>
 			<LimitMaxWarning>90</LimitMaxWarning>
