@@ -358,12 +358,11 @@ if ($vServerState -or $vServerHealth -or $vServer) {
                     $vServerOutofService ++
                 }
             }
-            if($Result.curstate -ne "OUT OF SERVICE")
-                {
+            if ($Result.curstate -ne "OUT OF SERVICE") {
                 if ($Result.health -le $vServerLBHealthMin) {
                     $vServerLBHealthMin = $Result.health
-                    }
                 }
+            }
 
             if ($vServerState) {
                 $xmlOutput += "<result>
@@ -615,16 +614,17 @@ if ($System) {
     $ResultNS = Get-NSStat -Session $Session -Type 'ns'
     $ResultCurrentTime = Get-NSCurrentTime -session $Session
     $ResultSystemCPU = Get-NSStat -session $session -Type systemcpu
+    $ResultFreePortsV4 = Get-NSIPResource -session $session | Where-Object { $_.Type -eq "SNIP" } | Select-Object -Property ipaddress, freeports | Sort-Object -Property freeports | Select-Object -First 1
+    $ResultFreePortsV6 = Get-NSIP6Resource -session $session | Where-Object { $_.Type -eq "SNIP" } | Select-Object -Property ipaddress, freeports | Sort-Object -Property freeports | Select-Object -First 1
+
 
     #CPU Result in 13.0 invalid
-    if($ResultSystem.cpuusagepcnt -eq 4294967295)
-        {
+    if ($ResultSystem.cpuusagepcnt -eq 4294967295) {
         $OutputCPU = ($ResultSystemCPU.percpuuse | Measure-Object -Average).Average
-        }
-    else
-        {
+    }
+    else {
         $OutputCPU = $ResultSystem.cpuusagepcnt
-        }
+    }
 
     $xmlOutput += "<result>
 			<channel>CPU Usage</channel>
@@ -754,6 +754,27 @@ if ($System) {
 			<unit>Custom</unit>
 			<CustomUnit>days</CustomUnit>
 			</result>"
+
+    $LowestFreePorts = 9999999
+    if ($ResultFreePortsV4) {
+        if ($ResultFreePortsV4.freeports -le $LowestFreePorts)
+        { $LowestFreePorts = $ResultFreePortsV4.freeports }
+    }
+        
+    if ($ResultFreePortsV6) {
+        if ($ResultFreePortsV6.freeports -le $LowestFreePorts)
+        { $LowestFreePorts = $ResultFreePortsV6.freeports }
+    }
+        
+    $xmlOutput += "<result>
+            <channel>SNIP least free ports</channel>
+            <value>$($LowestFreePorts)</value>
+            <unit>Count</unit>
+            <LimitMode>1</LimitMode>
+            <LimitMinWarning>50000</LimitMinWarning>
+            <LimitMinError>25000</LimitMinError>
+            </result>"
+    
 }
 #endregion System
 
